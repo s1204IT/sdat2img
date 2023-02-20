@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#====================================================
-#          FILE: sdat2img.py
-#       AUTHORS: xpirt - luxi78 - howellzhu
-#          DATE: 2018-10-27 10:33:21 CEST
-#====================================================
+#!/usr/bin/env python3
 
 from __future__ import print_function
 import sys, os, errno
@@ -64,7 +58,7 @@ def main(TRANSFER_LIST_FILE, NEW_DATA_FILE, OUTPUT_IMAGE_FILE):
         return version, new_blocks, commands
 
     BLOCK_SIZE = 4096
-    
+
     version, new_blocks, commands = parse_transfer_list_file(TRANSFER_LIST_FILE)
 
     if version == 1:
@@ -74,7 +68,7 @@ def main(TRANSFER_LIST_FILE, NEW_DATA_FILE, OUTPUT_IMAGE_FILE):
     elif version == 3:
         print('Android Marshmallow 6.x detected!\n')
     elif version == 4:
-        print('Android Nougat 7.x / Oreo 8.x detected!\n')
+        print('Android Nougat 7.0 or later detected!\n')
     else:
         print('Unknown Android version!\n')
 
@@ -103,7 +97,7 @@ def main(TRANSFER_LIST_FILE, NEW_DATA_FILE, OUTPUT_IMAGE_FILE):
 
                 # Position output file
                 output_img.seek(begin*BLOCK_SIZE)
-                
+
                 # Copy one block at a time
                 while(block_count > 0):
                     output_img.write(new_data_file.read(BLOCK_SIZE))
@@ -124,15 +118,13 @@ if __name__ == '__main__':
         TRANSFER_LIST_FILE = str(sys.argv[1])
         NEW_DATA_FILE = str(sys.argv[2])
     except IndexError:
-        print('\nUsage: sdat2img.py <transfer_list> <system_new_file> [system_img]\n')
-        print('    <transfer_list>: transfer list file')
-        print('    <system_new_file>: system new dat file')
-        print('    [system_img]: output system image\n\n')
-        print('Visit xda thread for more information.\n')
+        print('\nUsage: sdat2img <transfer_list> <system_new_file> [system_img]\n')
+        print('    <transfer_list>: transfer list file (system.transfer.list)')
+        print('    <system_new_file>: system new dat file (system.new.dat)')
+        print('    [system_img]: output system image (system.img)\n')
         try:
             input = raw_input
         except NameError: pass
-        input('Press ENTER to exit...')
         sys.exit()
 
     try:
